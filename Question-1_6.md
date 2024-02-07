@@ -33,68 +33,85 @@ So in summary, the mathematical runtime analysis shows this algorithm has a time
     $$\Rightarrow T(n) = 1 + (n+1) + n(n+1) + n^2$$
     $$\Rightarrow T(n) = 2n^2 + 2n + 2$$
 2. Calculations table:
-    
-    | n     | T(n)      |
-    |-------|-----------|
-    | 1     | 6         |
-    | 2     | 14        |
-    | 3     | 26        |
-    | 4     | 42        |
-    | 5     | 62        |
-    | 6     | 86        |
-    | 7     | 114       |
-    | 8     | 146       |
-    | 9     | 182       |
-    | 10    | 222       |
-    | 100   | 20202     |
-    | 1000  | 2002002   |
-    | 10000 | 200020002 |
+ import numpy as np
+import matplotlib.pyplot as plt
 
+def f(n):
+    x = 1
+    for i in range(1, n+1):
+        for j in range(1, n+1):
+            x = x + 1
+    return x
+
+n_values = np.arange(1, 101)
+times = []
+
+for n in n_values:
+    start_time = time.time()
+    f(n)
+    end_time = time.time()
+    times.append(end_time - start_time)
+
+plt.plot(n_values, times, 'o-')
+plt.xlabel('n')
+plt.ylabel('time')
+plt.title('Time complexity of the algorithm')
+plt.show()
     For graph open(graph-1.png)
 
-3. For this case, I pick c1 = ½ and c2 = 5, because: $\frac{1}{2} n^2 \leq 2n^2 + 3n + 2 \leq 5n^2$ (1)
+3. The polynomials that are upper and lower bounds on the curve from #2 are:
+Upper bound: O(n^2)
+Lower bound: Ω(n^2)
+This is because the time complexity of the algorithm is a quadratic function, which is both an upper bound and a lower bound on the curve.
 
-    Αnd we derive the following notations:
-    $$f(n) = O(n^2)$$
-    $$f(n) = \Omega(n^2)$$
-    $$f(n) = \Theta(n^2)$$
-
-4. n_0 in our case is chosen to be equal to 2 since for any n ≥ 2, inequality (1) is valid<br />
+4.The approximate location of "n_0" can be found by zooming in on the plot and identifying the point where the curve starts to deviate from the polynomial. In this case, n_0 is approximately 10.
    For graph open(Graph-2.png)
     As shown in the figure above, at x=1.4 the upper bound is larger than T(n), therefore, n_0=2 is the first integer that T(n) respects both bounds
 
 5. In case the function changed as stated in the question: 
-    x=1; 		# 1
-    y=1;		# 1
-        for i=1:n	# n+1
-            for j=1:n	# n(n+1)
-                x=x+1;		# n^2
-                y=i+j;		# n^2
-
-    The new T(n) would be:
-
-    $$T(n) = 2 + \sum_{i=1}^{n+1} 1 + \sum_{i=1}^{n} \sum_{j=1}^{n+1} 1 + 2\sum_{i=1}^{n} \sum_{j=1}^{n} 1$$
-    $$\Rightarrow T(n) = 2 + (n+1) + n(n+1) + 2n^2$$
-    $$\Rightarrow T(n) = 3n^2 + 2n + 3$$
-
+    def f(n):
+    x = 1
+    y = 1
+    for i in range(1, n+1):
+        for j in range(1, n+1):
+            x = x + 1
+   This will not affect the results from #1 because the time complexity of the algorithm is still quadratic.
 6. The results change as follows:
     
-    |   n   |   T(n)    |
-    |-------|-----------|
-    |   1   |     8     |
-    |   2   |     19    |
-    |   3   |     36    |
-    |   4   |     59    |
-    |   5   |     88    |
-    |   6   |     123   |
-    |   7   |     164   |
-    |   8   |     211   |
-    |   9   |     264   |
-    |  10   |     323   |
-    | 100   |   30203   |
-    | 1000  |  3002003  |
-    | 10000 | 300020003 |
+   def merge_sort(arr):
+    if len(arr) <= 1:
+        return arr
 
-    In the low n’s there is a difference, but as n gets larger the difference to the first function is negligible.
+    mid = len(arr) // 2
+    left = merge_sort(arr[:mid])
+    right = merge_sort(arr[mid:])
+
+    return merge(left, right)
+
+def merge(left, right):
+    merged = []
+    i = j = 0
+
+    while i < len(left) and j < len(right):
+        if left[i] < right[j]:
+            merged.append(left[i])
+            i += 1
+        else:
+            merged.append(right[j])
+            j += 1
+
+    while i < len(left):
+        merged.append(left[i])
+        i += 1
+
+    while j < len(right):
+        merged.append(right[j])
+        j += 1
+
+    return merged
+
+arr = [5,2,4,7,1,3,2,6]
+sorted_arr = merge_sort(arr)
+print(sorted_arr)
 
 
